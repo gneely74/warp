@@ -9,8 +9,9 @@ use std::path::PathBuf;
 use warp_core::ui::appearance::Appearance;
 use warp_core::ui::icons::Icon;
 use warpui::elements::{
-    Border, ChildView, Clipped, ConstrainedBox, Container, CornerRadius, CrossAxisAlignment, Dismiss, Flex,
-    Hoverable, MainAxisSize, MainAxisAlignment, MouseStateHandle, ParentElement, Radius, SavePosition, Shrinkable, Text,
+    Border, ChildView, Clipped, ConstrainedBox, Container, CornerRadius, CrossAxisAlignment,
+    Dismiss, Flex, Hoverable, MainAxisAlignment, MainAxisSize, MouseStateHandle, ParentElement,
+    Radius, SavePosition, Shrinkable, Text,
 };
 use warpui::platform::Cursor;
 use warpui::Element;
@@ -47,7 +48,11 @@ fn dialog_shell(content: Box<dyn Element>, appearance: &Appearance) -> Box<dyn E
 /// 渲染标题行（标题 + 关闭按钮）
 ///
 /// 标题使用 Shrinkable 包裹以支持自适应宽度，右侧放置 X 关闭按钮。
-fn render_title_bar(title: &str, appearance: &Appearance, close_btn_state: MouseStateHandle) -> Box<dyn Element> {
+fn render_title_bar(
+    title: &str,
+    appearance: &Appearance,
+    close_btn_state: MouseStateHandle,
+) -> Box<dyn Element> {
     let theme = appearance.theme();
     let text_color = theme.active_ui_text_color();
     let ui_font = appearance.ui_font_family();
@@ -73,7 +78,10 @@ fn render_title_bar(title: &str, appearance: &Appearance, close_btn_state: Mouse
 }
 
 /// 渲染 X 图标关闭按钮
-fn render_icon_close_button(appearance: &Appearance, mouse_state: MouseStateHandle) -> Box<dyn Element> {
+fn render_icon_close_button(
+    appearance: &Appearance,
+    mouse_state: MouseStateHandle,
+) -> Box<dyn Element> {
     let theme = appearance.theme();
     let icon_color = theme.sub_text_color(theme.background());
     let icon_el = ConstrainedBox::new(Icon::X.to_warpui_icon(icon_color).finish())
@@ -154,8 +162,19 @@ fn render_button(
 }
 
 /// 渲染取消按钮
-fn render_cancel_button(appearance: &Appearance, mouse_state: MouseStateHandle) -> Box<dyn Element> {
-    render_button("取消", false, appearance, SftpBrowserAction::CloseDialog, mouse_state, Some("sftp_btn:dialog_cancel"))
+fn render_cancel_button(
+    appearance: &Appearance,
+    mouse_state: MouseStateHandle,
+) -> Box<dyn Element> {
+    let label = crate::t!("common-cancel");
+    render_button(
+        &label,
+        false,
+        appearance,
+        SftpBrowserAction::CloseDialog,
+        mouse_state,
+        Some("sftp_btn:dialog_cancel"),
+    )
 }
 
 /// 渲染描述性确认对话框（标题 + 描述 + 确认/取消按钮）
@@ -186,7 +205,14 @@ fn render_confirm_dialog(
     )
     .finish();
 
-    let confirm_btn = render_button(confirm_label, true, appearance, confirm_action, confirm_btn_state, Some("sftp_btn:dialog_confirm"));
+    let confirm_btn = render_button(
+        confirm_label,
+        true,
+        appearance,
+        confirm_action,
+        confirm_btn_state,
+        Some("sftp_btn:dialog_confirm"),
+    );
     let cancel_btn = render_cancel_button(appearance, cancel_btn_state);
 
     let buttons = Flex::row()
@@ -237,15 +263,17 @@ fn render_delete_confirm(
             .file_name()
             .map(|n| n.to_string_lossy().to_string())
             .unwrap_or_else(|| paths[0].display().to_string());
-        format!("确定要删除 \"{name}\" 吗？此操作不可撤销。")
+        crate::t!("sftp-dialog-delete-one", name = name)
     } else {
-        format!("确定要删除 {count} 个项目吗？此操作不可撤销。")
+        crate::t!("sftp-dialog-delete-many", count = count)
     };
 
+    let title = crate::t!("sftp-dialog-delete-title");
+    let confirm_label = crate::t!("sftp-dialog-delete-confirm");
     render_confirm_dialog(
-        "确认删除",
+        &title,
         &desc,
-        "删除",
+        &confirm_label,
         SftpBrowserAction::ConfirmDelete,
         appearance,
         confirm_btn_state,
@@ -269,10 +297,11 @@ fn render_rename(
     let ui_font_size = appearance.ui_font_size();
 
     // 标题行
-    let title_bar = render_title_bar("重命名", appearance, close_btn_state);
+    let title = crate::t!("sftp-dialog-rename-title");
+    let title_bar = render_title_bar(&title, appearance, close_btn_state);
 
     // 当前名称提示
-    let hint = format!("当前名称: {original_name}");
+    let hint = crate::t!("sftp-dialog-rename-current-name", name = original_name);
     let hint_el = Shrinkable::new(
         1.0,
         Text::new(hint, ui_font, ui_font_size)
@@ -283,11 +312,7 @@ fn render_rename(
 
     // 编辑器 — Shrinkable + Clipped 防止长文件名溢出
     let editor_el = Container::new(
-        Shrinkable::new(
-            1.0,
-            Clipped::new(ChildView::new(editor).finish()).finish(),
-        )
-        .finish(),
+        Shrinkable::new(1.0, Clipped::new(ChildView::new(editor).finish()).finish()).finish(),
     )
     .with_padding_left(8.0)
     .with_padding_right(8.0)
@@ -298,8 +323,9 @@ fn render_rename(
     .finish();
 
     // 按钮
+    let confirm_label = crate::t!("common-ok");
     let confirm_btn = render_button(
-        "确定",
+        &confirm_label,
         true,
         appearance,
         SftpBrowserAction::ConfirmRename,
@@ -344,15 +370,12 @@ fn render_create_folder(
     let theme = appearance.theme();
 
     // 标题行
-    let title_bar = render_title_bar("新建文件夹", appearance, close_btn_state);
+    let title = crate::t!("sftp-dialog-create-folder-title");
+    let title_bar = render_title_bar(&title, appearance, close_btn_state);
 
     // 编辑器
     let editor_el = Container::new(
-        Shrinkable::new(
-            1.0,
-            Clipped::new(ChildView::new(editor).finish()).finish(),
-        )
-        .finish(),
+        Shrinkable::new(1.0, Clipped::new(ChildView::new(editor).finish()).finish()).finish(),
     )
     .with_padding_left(8.0)
     .with_padding_right(8.0)
@@ -363,8 +386,9 @@ fn render_create_folder(
     .finish();
 
     // 按钮
+    let confirm_label = crate::t!("sftp-dialog-create-folder-confirm");
     let confirm_btn = render_button(
-        "创建",
+        &confirm_label,
         true,
         appearance,
         SftpBrowserAction::ConfirmNewFolder,
@@ -437,14 +461,23 @@ fn render_file_details(
     close_btn_state: MouseStateHandle,
 ) -> Box<dyn Element> {
     // 标题行
-    let title_bar = render_title_bar("文件详情", appearance, close_btn_state);
+    let title = crate::t!("sftp-dialog-details-title");
+    let title_bar = render_title_bar(&title, appearance, close_btn_state);
 
     // 类型
     let type_str = match entry.file_type {
-        crate::sftp_manager::types::FileEntryType::File => "文件",
-        crate::sftp_manager::types::FileEntryType::Directory => "目录",
-        crate::sftp_manager::types::FileEntryType::Symlink => "符号链接",
-        crate::sftp_manager::types::FileEntryType::Other => "其他",
+        crate::sftp_manager::types::FileEntryType::File => {
+            crate::t!("sftp-dialog-details-type-file")
+        }
+        crate::sftp_manager::types::FileEntryType::Directory => {
+            crate::t!("sftp-dialog-details-type-directory")
+        }
+        crate::sftp_manager::types::FileEntryType::Symlink => {
+            crate::t!("sftp-dialog-details-type-symlink")
+        }
+        crate::sftp_manager::types::FileEntryType::Other => {
+            crate::t!("sftp-dialog-details-type-other")
+        }
     };
 
     // 构建属性行
@@ -452,13 +485,26 @@ fn render_file_details(
         .with_cross_axis_alignment(CrossAxisAlignment::Stretch)
         .with_spacing(8.0);
 
-    rows.add_child(detail_row("类型", type_str, appearance));
-    rows.add_child(detail_row("大小", &format_size(entry.size), appearance));
+    let label_type = crate::t!("sftp-dialog-details-label-type");
+    let label_size = crate::t!("sftp-dialog-details-label-size");
+    let label_modified = crate::t!("sftp-dialog-details-label-modified");
+    let label_permissions = crate::t!("sftp-dialog-details-label-permissions");
+    let label_path = crate::t!("sftp-dialog-details-label-path");
+    rows.add_child(detail_row(&label_type, &type_str, appearance));
+    rows.add_child(detail_row(
+        &label_size,
+        &format_size(entry.size),
+        appearance,
+    ));
     let modified = entry.modified.as_deref().unwrap_or("--");
-    rows.add_child(detail_row("修改时间", modified, appearance));
+    rows.add_child(detail_row(&label_modified, modified, appearance));
     let permissions = entry.permissions.as_deref().unwrap_or("--");
-    rows.add_child(detail_row("权限", permissions, appearance));
-    rows.add_child(detail_row("路径", &entry.path.display().to_string(), appearance));
+    rows.add_child(detail_row(&label_permissions, permissions, appearance));
+    rows.add_child(detail_row(
+        &label_path,
+        &entry.path.display().to_string(),
+        appearance,
+    ));
 
     // 关闭按钮
     let close_btn = render_cancel_button(appearance, cancel_btn_state);
@@ -467,7 +513,11 @@ fn render_file_details(
         .with_cross_axis_alignment(CrossAxisAlignment::Stretch)
         .with_spacing(12.0)
         .with_child(title_bar)
-        .with_child(ConstrainedBox::new(rows.finish()).with_max_height(250.0).finish())
+        .with_child(
+            ConstrainedBox::new(rows.finish())
+                .with_max_height(250.0)
+                .finish(),
+        )
         .with_child(close_btn)
         .finish();
 
@@ -492,15 +542,19 @@ fn render_move_dialog(
         .file_name()
         .map(|n| n.to_string_lossy().to_string())
         .unwrap_or_default();
-    let target_display = target_dir.display();
-    let desc = format!(
-        "将 \"{source_name}\" 移动到 {target_display}"
+    let target_display = target_dir.display().to_string();
+    let desc = crate::t!(
+        "sftp-dialog-move-desc",
+        source = source_name,
+        target = target_display
     );
 
+    let title = crate::t!("sftp-dialog-move-title");
+    let confirm_label = crate::t!("sftp-dialog-move-confirm");
     render_confirm_dialog(
-        "移动文件",
+        &title,
         &desc,
-        "移动",
+        &confirm_label,
         SftpBrowserAction::ConfirmMove,
         appearance,
         confirm_btn_state,
@@ -525,14 +579,18 @@ fn render_overwrite_confirm(
         .map(|n| n.to_string_lossy().to_string())
         .unwrap_or_default();
     let desc = match direction {
-        TransferDirection::Upload => format!("远程文件 {target_name} 已存在，是否覆盖？"),
-        TransferDirection::Download => format!("目标文件 {target_name} 已存在，是否覆盖？"),
+        TransferDirection::Upload => crate::t!("sftp-dialog-overwrite-upload", name = target_name),
+        TransferDirection::Download => {
+            crate::t!("sftp-dialog-overwrite-download", name = target_name)
+        }
     };
 
+    let title = crate::t!("sftp-dialog-overwrite-title");
+    let confirm_label = crate::t!("sftp-dialog-overwrite-confirm");
     render_confirm_dialog(
-        "确认覆盖",
+        &title,
         &desc,
-        "覆盖",
+        &confirm_label,
         SftpBrowserAction::ConfirmOverwrite,
         appearance,
         confirm_btn_state,
@@ -554,30 +612,62 @@ pub fn render_dialog(
     close_btn_state: MouseStateHandle,
 ) -> Box<dyn Element> {
     match dialog {
-        Dialog::DeleteConfirm { paths, .. } => {
-            render_delete_confirm(paths, appearance, confirm_btn_state, cancel_btn_state, close_btn_state)
-        }
-        Dialog::Rename {
+        Dialog::DeleteConfirm { paths, .. } => render_delete_confirm(
+            paths,
+            appearance,
+            confirm_btn_state,
+            cancel_btn_state,
+            close_btn_state,
+        ),
+        Dialog::Rename { original_name, .. } => render_rename(
             original_name,
-            ..
-        } => render_rename(original_name, rename_editor, appearance, confirm_btn_state, cancel_btn_state, close_btn_state),
-        Dialog::CreateFolder { .. } => {
-            render_create_folder(new_folder_editor, appearance, confirm_btn_state, cancel_btn_state, close_btn_state)
-        }
+            rename_editor,
+            appearance,
+            confirm_btn_state,
+            cancel_btn_state,
+            close_btn_state,
+        ),
+        Dialog::CreateFolder { .. } => render_create_folder(
+            new_folder_editor,
+            appearance,
+            confirm_btn_state,
+            cancel_btn_state,
+            close_btn_state,
+        ),
         Dialog::FileDetails { entry } => {
             render_file_details(entry, appearance, cancel_btn_state, close_btn_state)
         }
-        Dialog::Move { source, target_dir } => {
-            render_move_dialog(source, target_dir, appearance, confirm_btn_state, cancel_btn_state, close_btn_state)
-        }
-        Dialog::OverwriteConfirm { source, target, file_size, direction } => {
-            render_overwrite_confirm(source, target, *file_size, *direction, appearance, confirm_btn_state, cancel_btn_state, close_btn_state)
-        }
+        Dialog::Move { source, target_dir } => render_move_dialog(
+            source,
+            target_dir,
+            appearance,
+            confirm_btn_state,
+            cancel_btn_state,
+            close_btn_state,
+        ),
+        Dialog::OverwriteConfirm {
+            source,
+            target,
+            file_size,
+            direction,
+        } => render_overwrite_confirm(
+            source,
+            target,
+            *file_size,
+            *direction,
+            appearance,
+            confirm_btn_state,
+            cancel_btn_state,
+            close_btn_state,
+        ),
         Dialog::CloseTransferPanelConfirm => {
+            let title = crate::t!("sftp-dialog-close-transfer-title");
+            let desc = crate::t!("sftp-dialog-close-transfer-desc");
+            let confirm_label = crate::t!("sftp-dialog-close-transfer-confirm");
             render_confirm_dialog(
-                "关闭传输面板",
-                "有正在进行的传输任务，关闭将中断所有传输并清空记录。确定要关闭吗？",
-                "关闭",
+                &title,
+                &desc,
+                &confirm_label,
                 SftpBrowserAction::ConfirmCloseTransferPanel,
                 appearance,
                 confirm_btn_state,

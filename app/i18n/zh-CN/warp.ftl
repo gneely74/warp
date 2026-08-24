@@ -3568,3 +3568,62 @@ workflow-enum-variants = 变体
 quit-warning-dont-save = 不保存
 quit-warning-show-running-processes = 显示运行中的进程
 quit-warning-save-changes-title = 保存更改？
+
+# =============================================================================
+# SECTION: sftp-dialog (Owner: sftp-manager)
+# =============================================================================
+
+sftp-dialog-delete-title = 确认删除
+sftp-dialog-delete-one = 确定要删除 "{ $name }" 吗？此操作不可撤销。
+sftp-dialog-delete-many = 确定要删除 { $count } 个项目吗？此操作不可撤销。
+sftp-dialog-delete-confirm = 删除
+sftp-dialog-rename-title = 重命名
+sftp-dialog-rename-current-name = 当前名称: { $name }
+sftp-dialog-create-folder-title = 新建文件夹
+sftp-dialog-create-folder-confirm = 创建
+sftp-dialog-details-title = 文件详情
+sftp-dialog-details-type-file = 文件
+sftp-dialog-details-type-directory = 目录
+sftp-dialog-details-type-symlink = 符号链接
+sftp-dialog-details-type-other = 其他
+sftp-dialog-details-label-type = 类型
+sftp-dialog-details-label-size = 大小
+sftp-dialog-details-label-modified = 修改时间
+sftp-dialog-details-label-permissions = 权限
+sftp-dialog-details-label-path = 路径
+sftp-dialog-move-desc = 将 "{ $source }" 移动到 { $target }
+sftp-dialog-move-title = 移动文件
+sftp-dialog-move-confirm = 移动
+sftp-dialog-overwrite-upload = 远程文件 { $name } 已存在，是否覆盖？
+sftp-dialog-overwrite-download = 目标文件 { $name } 已存在，是否覆盖？
+sftp-dialog-overwrite-title = 确认覆盖
+sftp-dialog-overwrite-confirm = 覆盖
+sftp-dialog-close-transfer-title = 关闭传输面板
+sftp-dialog-close-transfer-desc = 有正在进行的传输任务，关闭将中断所有传输并清空记录。确定要关闭吗？
+sftp-dialog-close-transfer-confirm = 关闭
+
+# =============================================================================
+# SECTION: sftp-browser (Owner: sftp-manager)
+# =============================================================================
+
+sftp-browser-pane-title = 文件管理
+sftp-err-not-connected = 未连接到服务器
+sftp-err-name-empty = 名称不能为空
+sftp-err-folder-name-empty = 文件夹名称不能为空
+sftp-err-name-invalid-separator = 名称不合法：不能包含路径分隔符
+sftp-err-target-path-invalid = 目标路径不合法
+sftp-err-filename-illegal-chars = 文件名包含非法字符
+sftp-err-server-config-not-found = 未找到服务器配置
+sftp-err-read-server-config = 读取服务器配置失败: { $error }
+err-sftp-create-channel = 创建 SFTP 通道失败: { $error }
+sftp-status-connection-cancelled = 连接已取消
+err-sftp-list-dir = 列出目录失败: { $error }
+err-sftp-delete = 删除失败: { $error }
+err-sftp-upload = 上传失败: { $error }
+err-sftp-upload-not-connected = 上传失败: 未连接到服务器
+err-sftp-download = 下载失败: { $error }
+err-sftp-download-not-connected = 下载失败: 未连接到服务器
+err-sftp-rename = 重命名失败: { $error }
+err-sftp-create-folder = 创建文件夹失败: { $error }
+err-sftp-move = 移动失败: { $error }
+sftp-drop-files-to-upload = 拖放文件以上传

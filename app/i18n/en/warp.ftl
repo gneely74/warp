@@ -3654,3 +3654,64 @@ workflow-enum-variants = Variants
 quit-warning-dont-save = Don't Save
 quit-warning-show-running-processes = Show running processes
 quit-warning-save-changes-title = Save changes?
+
+# =============================================================================
+# SECTION: sftp-dialog (Owner: sftp-manager)
+# Files: app/src/sftp_manager/dialogs.rs
+# =============================================================================
+
+sftp-dialog-delete-title = Confirm delete
+sftp-dialog-delete-one = Are you sure you want to delete "{ $name }"? This action cannot be undone.
+sftp-dialog-delete-many = Are you sure you want to delete { $count } items? This action cannot be undone.
+sftp-dialog-delete-confirm = Delete
+sftp-dialog-rename-title = Rename
+sftp-dialog-rename-current-name = Current name: { $name }
+sftp-dialog-create-folder-title = New folder
+sftp-dialog-create-folder-confirm = Create
+sftp-dialog-details-title = File details
+sftp-dialog-details-type-file = File
+sftp-dialog-details-type-directory = Directory
+sftp-dialog-details-type-symlink = Symbolic link
+sftp-dialog-details-type-other = Other
+sftp-dialog-details-label-type = Type
+sftp-dialog-details-label-size = Size
+sftp-dialog-details-label-modified = Modified
+sftp-dialog-details-label-permissions = Permissions
+sftp-dialog-details-label-path = Path
+sftp-dialog-move-desc = Move "{ $source }" to { $target }
+sftp-dialog-move-title = Move file
+sftp-dialog-move-confirm = Move
+sftp-dialog-overwrite-upload = Remote file { $name } already exists. Overwrite it?
+sftp-dialog-overwrite-download = Target file { $name } already exists. Overwrite it?
+sftp-dialog-overwrite-title = Confirm overwrite
+sftp-dialog-overwrite-confirm = Overwrite
+sftp-dialog-close-transfer-title = Close transfer panel
+sftp-dialog-close-transfer-desc = Transfers are in progress. Closing will interrupt all transfers and clear the history. Are you sure you want to close?
+sftp-dialog-close-transfer-confirm = Close
+
+# =============================================================================
+# SECTION: sftp-browser (Owner: sftp-manager)
+# Files: app/src/sftp_manager/browser.rs
+# =============================================================================
+
+sftp-browser-pane-title = File manager
+sftp-err-not-connected = Not connected to server
+sftp-err-name-empty = Name cannot be empty
+sftp-err-folder-name-empty = Folder name cannot be empty
+sftp-err-name-invalid-separator = Invalid name: cannot contain path separators
+sftp-err-target-path-invalid = Target path is invalid
+sftp-err-filename-illegal-chars = Filename contains illegal characters
+sftp-err-server-config-not-found = Server configuration not found
+sftp-err-read-server-config = Failed to read server configuration: { $error }
+err-sftp-create-channel = Failed to create SFTP channel: { $error }
+sftp-status-connection-cancelled = Connection cancelled
+err-sftp-list-dir = Failed to list directory: { $error }
+err-sftp-delete = Delete failed: { $error }
+err-sftp-upload = Upload failed: { $error }
+err-sftp-upload-not-connected = Upload failed: not connected to server
+err-sftp-download = Download failed: { $error }
+err-sftp-download-not-connected = Download failed: not connected to server
+err-sftp-rename = Rename failed: { $error }
+err-sftp-create-folder = Failed to create folder: { $error }
+err-sftp-move = Move failed: { $error }
+sftp-drop-files-to-upload = Drop files to upload

@@ -3486,3 +3486,63 @@ workflow-enum-variant-placeholder = バリアント
 workflow-enum-variants = バリアント
 quit-warning-dont-save = 保存しない
 quit-warning-show-running-processes = 実行中のプロセスを表示
+quit-warning-save-changes-title = 変更を保存しますか？
+
+# =============================================================================
+# SECTION: sftp-dialog (Owner: sftp-manager)
+# =============================================================================
+
+sftp-dialog-delete-title = 削除の確認
+sftp-dialog-delete-one = 本当に "{ $name }" を削除しますか？この操作は元に戻せません。
+sftp-dialog-delete-many = 本当に { $count } 件のアイテムを削除しますか？この操作は元に戻せません。
+sftp-dialog-delete-confirm = 削除
+sftp-dialog-rename-title = 名前変更
+sftp-dialog-rename-current-name = 現在の名前: { $name }
+sftp-dialog-create-folder-title = 新規フォルダ
+sftp-dialog-create-folder-confirm = 作成
+sftp-dialog-details-title = ファイルの詳細
+sftp-dialog-details-type-file = ファイル
+sftp-dialog-details-type-directory = ディレクトリ
+sftp-dialog-details-type-symlink = シンボリックリンク
+sftp-dialog-details-type-other = その他
+sftp-dialog-details-label-type = 種類
+sftp-dialog-details-label-size = サイズ
+sftp-dialog-details-label-modified = 更新日時
+sftp-dialog-details-label-permissions = 権限
+sftp-dialog-details-label-path = パス
+sftp-dialog-move-desc = "{ $source }" を { $target } に移動
+sftp-dialog-move-title = ファイルの移動
+sftp-dialog-move-confirm = 移動
+sftp-dialog-overwrite-upload = リモートファイル { $name } は既に存在します。上書きしますか？
+sftp-dialog-overwrite-download = 対象ファイル { $name } は既に存在します。上書きしますか？
+sftp-dialog-overwrite-title = 上書きの確認
+sftp-dialog-overwrite-confirm = 上書き
+sftp-dialog-close-transfer-title = 転送パネルを閉じる
+sftp-dialog-close-transfer-desc = 転送中のタスクがあります。閉じるとすべての転送が中断され、履歴が消去されます。本当に閉じますか？
+sftp-dialog-close-transfer-confirm = 閉じる
+
+# =============================================================================
+# SECTION: sftp-browser (Owner: sftp-manager)
+# =============================================================================
+
+sftp-browser-pane-title = ファイルマネージャ
+sftp-err-not-connected = サーバーに接続されていません
+sftp-err-name-empty = 名前は空にできません
+sftp-err-folder-name-empty = フォルダ名は空にできません
+sftp-err-name-invalid-separator = 無効な名前: パス区切り文字を含めることはできません
+sftp-err-target-path-invalid = 対象パスが不正です
+sftp-err-filename-illegal-chars = ファイル名に不正な文字が含まれています
+sftp-err-server-config-not-found = サーバー設定が見つかりません
+sftp-err-read-server-config = サーバー設定の読み取りに失敗しました: { $error }
+err-sftp-create-channel = SFTP チャネルの作成に失敗しました: { $error }
+sftp-status-connection-cancelled = 接続がキャンセルされました
+err-sftp-list-dir = ディレクトリの一覧表示に失敗しました: { $error }
+err-sftp-delete = 削除に失敗しました: { $error }
+err-sftp-upload = アップロードに失敗しました: { $error }
+err-sftp-upload-not-connected = アップロードに失敗しました: サーバーに接続されていません
+err-sftp-download = ダウンロードに失敗しました: { $error }
+err-sftp-download-not-connected = ダウンロードに失敗しました: サーバーに接続されていません
+err-sftp-rename = 名前の変更に失敗しました: { $error }
+err-sftp-create-folder = フォルダの作成に失敗しました: { $error }
+err-sftp-move = 移動に失敗しました: { $error }
+sftp-drop-files-to-upload = ファイルをドロップしてアップロード
